@@ -4,9 +4,11 @@ CobraLang
 Another efficient, simple, easy, and robust programming language
 
 Concepts
---------
+========
+Include / Import
+----------------
 
-Include another file an compile into context:
+Include another cobra file and compile it into context:
 ```
 include "filename"
 ```
@@ -15,7 +17,7 @@ include "filename"
  - using the ~/ represents where the init directory is
  - includes can happen anywhere in the file and by dynamically included during runtime
 
-Include another module, included with the language:
+Include a module, built in with the language:
 ```
 import "os"
 ```
@@ -26,18 +28,19 @@ import "os"
 
 Imports and includes can be declared in bulk
 ```
-import{
+import {
   "os";
   "fs";
 }
 
-include{
+include {
   "filename"
   "anotherFileName";
 }
 ```
 
 Macros 
+------
 ```
 macro MAX_FILE_SIZE 40000;
 macro BUFFER_SIZE 2000;
@@ -47,20 +50,26 @@ macro BUFFER_SIZE 2000;
 
 Macros can be declared in bulk
 ```
-macro{
+macro {
   MAX_FILE_SIZE 40000;
   BUFFER_SIZE 2000;
 }
 ```
 
 Variables
+---------
 ```
 var variableName = 10;
 int varName = 10;
+bool boolName = false;
+long longName = 100;
+double doubleName = 10.0;
+short shortName = 1;
 char letter = 'a';
 var letter = 'a';
 ```
  - The keyword var can be used instead of data type
+ - Var intelligently guesses the data type
  - variable names follow this pattern: [a-zA-Z][a-zA-Z0-9]*
 
 Variables can be declared in bulk
@@ -78,8 +87,9 @@ int {
 ```
 
 Objects
+-------
 ```
-objectName{
+objectName {
   ...
 }
 ```
@@ -89,6 +99,7 @@ objectName{
  - Object names must not be a reserved word
 
 Object constructors
+-------------------
 Single constructor
 ```
 objectName{
@@ -114,6 +125,7 @@ var obj = new objectName('frank', 65, 175);
  - Constructor values will be set to null if no value is pass through
 
 Static value
+------------
 ```
 math{
   #pi = 3.14159265;
@@ -158,10 +170,16 @@ objectName{
 }
 ```
 
-Add an object property
+Object property
+----------------------
 ```
 objectName{
   this.propertyName;
+  
+  this{
+    propertyName;
+    propertyName2;
+  }
 }
 
 var obj = new objectName();
@@ -170,7 +188,8 @@ obj.propertyName;
  - To declare a single non-constructor, non-static property name needs the word this
  - The property can be of any type
 
-To add a prototype method or variable to an object
+Prototypes
+----------
 ```
 objectName{
   this.name = 'Franklynn';
@@ -190,6 +209,7 @@ $objectName{
 ```
 
 Functions and methods
+---------------------
 ```
 functionName(a, b){
   var x = 10;
@@ -204,6 +224,8 @@ y(n){
  - Functions cannot be declared in bulk
 
 Global variables
+----------------
+Global variables are a killer with software development. To protect the objects, we have a special way to access these variables.
 ```
 var variableName = 100;
 ```
@@ -237,6 +259,7 @@ computeValue(){
 ```
 
 Declare Object:
+--------------
 ```
 // Include your own file with or without extension
 include "filename";
@@ -249,7 +272,7 @@ macro MAX_SIZE 10;
 
 var globalVariable = 10;
 
-object{
+objectName{
   @property; // Part of constructor
   
   //Multiple constructors
@@ -300,28 +323,31 @@ object{
 }
 
 // Add single prototype
-$object.method(){
+$objectName.method(){
 
 }
 
 // Add prototypes to the object in bulk
-$object{
+$objectName{
   methodName(){
     ...
   }
 }
 
 // Declare the object and call a method
-var newObj = new object(10, 20);
+var newObj = new objectName(10, 20);
 newObj.method();
 
 // % = mixed array
-ary[
+%ary[
   1,
   '2',
   3.0,
   new object()
 ]
+
+//  Normal array
+ary[1, 2, 3];
 
 // Access a particular index
 var o = ary[3];
