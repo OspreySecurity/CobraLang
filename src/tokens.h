@@ -25,9 +25,14 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef COMPILER_H_
-#define COMPILER_H_
+/*
+* This file is used for holding the reserved keywords and tokens 
+* for Cobra.
+*/
+
+#ifndef TOKENS_H_
+#define TOKENS_H_
 
 
 
-#endif // COMPILER_H_
+#endif // TOKENS_H_

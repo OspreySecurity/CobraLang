@@ -25,9 +25,6 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef COMPILER_H_
-#define COMPILER_H_
-
-
-
-#endif // COMPILER_H_
+int main(int argc, const char* argv[]){
+  return 0;
+}
