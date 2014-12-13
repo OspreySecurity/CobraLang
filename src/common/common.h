@@ -25,12 +25,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef COMPILER_H_
-#define COMPILER_H_
+#ifndef COMMON_H_
+#define COMMON_H_
 
-#include "lexer.h"
-#include "tokens.h"
+#define STRING_LIMIT 50000
 
-void Cobra_Compile(const char* source, const char* name);
-
-#endif // COMPILER_H_
+#endif // COMMON_H_
