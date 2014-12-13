@@ -1,0 +1,27 @@
+import 'http';
+import 'html';
+
+crawler{
+  @{
+    url;
+    getWebPage();
+  }
+  
+  this {
+    raw = '';
+    doc;
+  }
+  
+  getWebPage(){
+    var request = http.request(this.url);
+    this.raw = request.get();
+    this.doc = html.parse(this.raw);
+  }
+  
+  query(queryName){
+    return this.doc.querySelectorAll(queryName);
+  }
+}
+
+var c = new crawler('https://google.com');
+var elements = c.query('a[href]');
