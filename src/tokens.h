@@ -8,6 +8,14 @@
 #ifndef TOKENS_H_
 #define TOKENS_H_
 
+/*
+* The basic token structure
+*/
+struct Token{
+	int tok; // Taken from TOK from tokens.h
+	const char* value;
+};
+
 enum TOK{
 	// Reserved Words
 	IMPORT = 256,

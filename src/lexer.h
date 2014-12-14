@@ -3,19 +3,24 @@
 #ifndef LEXER_H_
 #define LEXER_H_
 
+#include <ctype.h>
 #include "tokens.h"
+#include "common/common.h"
 
 /*
-* The basic token structure
+* Current information. Acts like an object
 */
-struct Token{
-	int tok; // Taken from TOK from tokens.h
-	char* value;
-	int col; // Column the token starts
-	int row; // Row which the token starts
-	int pos; // Position from the start of the source string
+struct Lexer{
+	const char* source; // Source code goes here
+	int size; // size of source
+	int col;
+	int row; 
+	int pos;
+	bool hasError; // Imported from common.h
+	char* errorMsg;
 };
 
-struct Token cobra_next_token();
+struct Token cobra_next_token(struct Lexer *lexer);
+char cobra_next_char(struct Lexer *lexer);
 
 #endif // LEXER_H_

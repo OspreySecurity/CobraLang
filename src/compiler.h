@@ -3,6 +3,7 @@
 #ifndef COMPILER_H_
 #define COMPILER_H_
 
+#include <stdio.h>
 #include "lexer.h"
 #include "tokens.h"
 
