@@ -27,4 +27,4 @@ run:
 	./build/Cobra
 
 clean:
-	rm -rf build/*.o
+	rm -rf build/*

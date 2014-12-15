@@ -18,9 +18,12 @@ struct Lexer{
 	int pos;
 	bool hasError; // Imported from common.h
 	char* errorMsg;
+	int previousCol;
 };
 
 struct Token cobra_next_token(struct Lexer *lexer);
 char cobra_next_char(struct Lexer *lexer);
+char cobra_next_char_peek(struct Lexer* lexer);
+char cobra_last_char(struct Lexer *lexer);
 
 #endif // LEXER_H_

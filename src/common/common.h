@@ -10,4 +10,6 @@ typedef int bool;
 #define true 1;
 #define false 0;
 
+char* substr(const char* str, int start, int length);
+
 #endif // COMMON_H_
