@@ -8,13 +8,14 @@
 void Parser(struct Lexer *lexer);
 void Error(const char* msg, struct Lexer *lexer);
 void ParseImport(struct Lexer *lexer);
+void ParseInclude(struct Lexer *lexer);
 
 typedef struct{
 	char name[256];
-} kExpr;
+} kImport;
 
 typedef struct{
-	kExpr super;
-} kImport;
+	char name[256];
+} kInclude;
 
 #endif // PARSER_H_
