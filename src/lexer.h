@@ -17,7 +17,7 @@ struct Lexer{
 	int row; 
 	int pos;
 	bool hasError; // Imported from common.h
-	char* errorMsg;
+	const char* errorMsg;
 	int previousCol;
 };
 
