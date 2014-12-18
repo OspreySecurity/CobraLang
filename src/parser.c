@@ -1,3 +1,10 @@
+/*
+* Resources:
+* Parser: http://www.tcx.be/blog/2007/wp10-adl-parser-2/
+* The Shunting-yard algorithm: http://en.wikipedia.org/wiki/Shunting-yard_algorithm
+* http://stackoverflow.com/questions/5853136/how-do-i-write-a-parser-in-c-or-objective-c-from-without-a-parser-generators
+* json library: https://bitbucket.org/zserge/jsmn/src/19001fb4adb3914cd4f7584c828fa2e0ff7f4922/jsmn.h?at=default
+*/
 
 #include <stdio.h>
 #include <string.h>
@@ -5,111 +12,70 @@
 #include "include.h"
 #include "common/common.h"
 #include "compiler.h"
+#include "object.h"
 
-void Parser(struct Lexer *lexer){
-	struct Token tok = cobra_next_token(lexer); // pass the address of the lexer
+void Parser(Context* context, Lexer *lexer){
+	Token tok;
+	cobra_next_token(lexer, &tok); // pass the address of the lexer
 	//Loop and grab each token till the end of the file
-	while (tok.tok != EOF_LITERAL){
-
+	while (tok.type != EOF_LITERAL){
 		if (lexer->hasError)
 			break;
+		if (tok.type == INCLUDE)
+			ParseInclude(lexer, &tok);
+		else if (tok.type == IMPORT)
+			ParseImport(lexer, &tok);
+		else if (tok.type == VAR)
+			ParseVariable(lexer, &tok, context);
 
-		if (tok.tok == IMPORT){
-			ParseImport(lexer);
-			if (lexer->hasError)
-				break;
-		}
-		else if (tok.tok == INCLUDE){
-			ParseInclude(lexer);
-			if (lexer->hasError)
-				break;
-		}
+		if (context->try_catch.hasError)
+			break;
 
-		//printf("%s\n", tok.value);
 		// This is where we'll sort everything into an AST tree
-		tok = cobra_next_token(lexer);
-	}
-
-	if (lexer->hasError){
-		printf("%d:%d - %s\n", lexer->row, lexer->col, lexer->errorMsg);
+		cobra_next_token(lexer, &tok);
 	}
 }
 
-void Error(const char* msg, struct Lexer *lexer){
+void Error(const char* msg, Lexer *lexer, Context* context){
 	lexer->hasError = true;
 	lexer->errorMsg = msg;
+	context->try_catch.hasError = true;
+	sprintf(context->try_catch.msg, "%d:%d - %s", lexer->row, lexer->col, lexer->errorMsg);
+}
+
+void ParseInclude(Lexer* lexer, Token* tok){
+
+}
+
+void ParseImport(Lexer* lexer, Token* tok){
+	
 }
 
 /*
-* ParseInclude will crawl the two different options to include a file
-* Option 1: include 'filename';
-* Option 2: include {
-*							"filename";
-*						}
+*	function for parsing a variable
 */
-void ParseInclude(struct Lexer *lexer){
-	struct Token tok = cobra_next_token(lexer);
-	if (tok.tok == RETURN_STR){
-		kInclude kinclude; // Don't know what to do with this yet though
-		strcpy(kinclude.name, tok.value);
-		printf("\n%s%s\n", "Include used: ", kinclude.name);
-	}
-	else if (tok.tok == LBRACKET){
-		tok = cobra_next_token(lexer);
-		while (tok.tok == RETURN_STR){
-			kInclude kinclude; // Don't know what to do with this yet though
-			strcpy(kinclude.name, tok.value);
-			printf("%s%s\n", "Include used: ", tok.value);
-			tok = cobra_next_token(lexer);
-			if (tok.tok != SEMI){
-				Error("Syntax error, expected ';'", lexer);
-				break;
-			}
-			else{
-				tok = cobra_next_token(lexer); // eat the ; and proceed
+void ParseVariable(Lexer* lexer, Token* tok, Context* context){
+	cobra_next_token(lexer, tok);
+	if (tok->type != ID && tok->type != LBRACKET)
+		Error("Invalid declaration of variable", lexer, context);
+	else{
+		if (tok->type == ID){
+			kObject var;
+			cobra_set_object(&var, tok->value, "var"); // store the name and the type
+			
+			cobra_next_token(lexer, tok);
+			if (tok->type != EQUALS)
+				Error("Syntax error, missing '='", lexer, context);
+		}
+		else{
+			while (tok->type != RBRACKET){
+				ParseVariable(lexer, tok, context);
+				if (context->try_catch.hasError)
+					break;
 			}
 		}
-		if (tok.tok != RBRACKET)
-			Error("Syntax error, expected }", lexer);
 	}
-	else{
-		Error("Syntax error, expected string", lexer);
-	}
-}
-
-/*
-* ParseImport will crawl the two different options to import a module
-* Option 1: import 'filename';
-* Option 2: import {
-*							"filename";
-*						}
-*/
-void ParseImport(struct Lexer *lexer){
-	struct Token tok = cobra_next_token(lexer);
-	if (tok.tok == RETURN_STR){
-		kImport kimport; // Don't know what to do with this yet though
-		strcpy(kimport.name, tok.value);
-		printf("%s%s\n", "Import used: ", kimport.name);
-	}
-	else if (tok.tok == LBRACKET){
-		tok = cobra_next_token(lexer);
-		while (tok.tok == RETURN_STR){
-			kImport kimport; // Don't know what to do with this yet though
-			strcpy(kimport.name, tok.value);
-			printf("%s%s\n", "Import used: ", tok.value);
-			tok = cobra_next_token(lexer);
-			if (tok.tok != SEMI){
-				Error("Syntax error, expected ';'", lexer);
-				break;
-			}
-			else{
-				tok = cobra_next_token(lexer); // eat the ; and proceed
-			}
-		}
-		if (tok.tok != RBRACKET)
-			Error("Syntax error, expected }", lexer);
-	}
-	else{
-		Error("Syntax error, expected string", lexer);
-	}
+	cobra_next_token(lexer, tok);
+	if (tok->type != SEMI && !context->try_catch.hasError)
+		Error("Syntax error, missing ';'", lexer, context);
 }

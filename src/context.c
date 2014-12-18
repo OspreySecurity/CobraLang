@@ -2,6 +2,6 @@
 
 #include "context.h"
 
-struct Context{
+void context(){
 	
-};
+}

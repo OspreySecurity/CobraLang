@@ -5,6 +5,14 @@
 
 #include "parser.h"
 
-void Cobra_Include(kInclude *inc, char* ch);
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void Cobra_Include();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // INCLUDE_H_

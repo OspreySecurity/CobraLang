@@ -1,30 +1,32 @@
-CC=gcc
-TGT=build
-INCLUDES = -Iinclude
-FLAGS = -Wall $(INCLUDES)
+CC=cc
+CFLAGS=-Wall
 
-CC_FILES = $(shell find src -type f -name "*.c" ! -name "main.c")
+SRC=$(wildcard src/*.c) $(wildcard src/common/*.c)
 
-help:
+all: $(SRC)
+	gcc -c -Wall $^
+	make lib
+
+lib:
+	ar rvs build/libcobra.a $(wildcard *.o)
+	make cleano
+
+test:
+	gcc $(FLAGS) -I ./ test/main.c -Iinclude build/libcobra.a -o build/Cobra
 	@echo ""
-	@echo "Makefile for Building Cobra."
-	@echo "Usage: make [ all | clean | help | build | run] " 
-	@echo ""
-
-build:
-	zip -r cobra.zip ./build/Cobra
-
-all: buildCC
-	@echo "Done"
-	@echo ""
-
-buildCC:
-	@echo "" 
-	@echo "Building Cobra..."
-	$(CC) $(FLAGS) $(CC_FILES) src/main.c -o build/Cobra 
-
-run:
+	@echo "Running..."
 	./build/Cobra
 
+cleano:
+	rm -rf *.o
+
 clean:
-	rm -rf build/*
+	rm -rf *.o
+	rm -rf build/*.a
+
+buildtest:
+	make clean
+	make all
+	make test
+
+.PHONY: all clean test

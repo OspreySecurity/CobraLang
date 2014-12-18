@@ -5,7 +5,16 @@
 
 #include "lexer.h"
 #include "tokens.h"
+#include "context.h"
 
-void Cobra_Compile(const char* source, const char* name);
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void Cobra_Compile(Context* context, const char* source, const char* name);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // COMPILER_H_

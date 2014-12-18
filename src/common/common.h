@@ -3,13 +3,23 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
-#define STRING_LIMIT 50000
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-// In c, bool isn't defined as a type. So here you go
+/*
+*	Bool isn't defined in C, but now it is!
+*/
 typedef int bool;
 #define true 1;
 #define false 0;
 
 char* substr(const char* str, int start, int length);
+bool cobra_isInt(char* str);
+bool cobra_isBool(char* str);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // COMMON_H_

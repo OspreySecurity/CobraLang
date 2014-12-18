@@ -8,13 +8,17 @@
 #ifndef TOKENS_H_
 #define TOKENS_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
 * The basic token structure
 */
-struct Token{
-	int tok; // Taken from TOK from tokens.h
-	const char* value;
-};
+typedef struct{
+	int type; // Taken from TOK from tokens.h
+	char value[256];
+} Token;
 
 enum TOK{
 	// Reserved Words
@@ -22,6 +26,13 @@ enum TOK{
 	INCLUDE,
 	MACRO,
 	VAR,
+	SHORT,
+	BOOL,
+	CHAR,
+	INT,
+	FLOAT,
+	DOUBLE,
+	LONG,
 	RETURN,
 	IF,
 	ELSE,
@@ -89,5 +100,9 @@ enum TOK{
 	RETURN_NUM,
 	RETURN_STR	
 };
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // TOKENS_H_

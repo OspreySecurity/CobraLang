@@ -4,18 +4,20 @@
 #define PARSER_H_
 
 #include "lexer.h"
+#include "context.h"
 
-void Parser(struct Lexer *lexer);
-void Error(const char* msg, struct Lexer *lexer);
-void ParseImport(struct Lexer *lexer);
-void ParseInclude(struct Lexer *lexer);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-typedef struct{
-	char name[256];
-} kImport;
+void Parser(Context* context, Lexer *lexer);
+void Error(const char* msg, Lexer *lexer, Context* context);
+void ParseInclude(Lexer* lexer, Token* tok);
+void ParseImport(Lexer* lexer, Token* tok);
+void ParseVariable(Lexer* lexer, Token* tok, Context* context);
 
-typedef struct{
-	char name[256];
-} kInclude;
+#ifdef __cplusplus
+}
+#endif
 
 #endif // PARSER_H_
