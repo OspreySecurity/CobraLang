@@ -56,7 +56,9 @@ void ParseImport(Lexer* lexer, Token* tok){
 */
 void ParseVariable(Lexer* lexer, Token* tok, Context* context){
 	cobra_next_token(lexer, tok);
-	if (tok->type != ID && tok->type != LBRACKET)
+	if (tok->type == RBRACKET)
+		return;
+	else if (tok->type != ID && tok->type != LBRACKET)
 		Error("Invalid declaration of variable", lexer, context);
 	else{
 		if (tok->type == ID){
@@ -66,8 +68,10 @@ void ParseVariable(Lexer* lexer, Token* tok, Context* context){
 			cobra_next_token(lexer, tok);
 			if (tok->type != EQUALS)
 				Error("Syntax error, missing '='", lexer, context);
+			cobra_next_token(lexer, tok); // eat next, tmp
 		}
 		else{
+			cobra_next_token(lexer, tok); // eat the bracket
 			while (tok->type != RBRACKET){
 				ParseVariable(lexer, tok, context);
 				if (context->try_catch.hasError)

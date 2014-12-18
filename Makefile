@@ -13,9 +13,8 @@ lib:
 
 test:
 	gcc $(FLAGS) -I ./ test/main.c -Iinclude build/libcobra.a -o build/Cobra
-	@echo ""
-	@echo "Running..."
-	./build/Cobra
+	./build/Cobra ${ARGS}
+
 
 cleano:
 	rm -rf *.o

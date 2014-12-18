@@ -22,7 +22,7 @@ void cobra_next_token(Lexer *lexer, Token* tok){
 	if (letter == '\0')
 		cobra_set_token(tok, EOF_LITERAL, "");
 
-	while (letter == ' ' && letter != '\0') // skip spaces
+	while ((letter == ' ' || letter == '\t') && letter != '\0') // skip spaces
 		letter = cobra_next_char(lexer);
 
 	if (isalpha(letter)){ // [a-zA-Z]
