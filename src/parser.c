@@ -68,7 +68,7 @@ void ParseVariable(Lexer* lexer, Token* tok, Context* context){
 			cobra_next_token(lexer, tok);
 			if (tok->type != EQUALS)
 				Error("Syntax error, missing '='", lexer, context);
-			cobra_next_token(lexer, tok); // eat next, tmp
+			ParseExpression(lexer, tok, context);
 		}
 		else{
 			cobra_next_token(lexer, tok); // eat the bracket
@@ -82,4 +82,29 @@ void ParseVariable(Lexer* lexer, Token* tok, Context* context){
 	cobra_next_token(lexer, tok);
 	if (tok->type != SEMI && !context->try_catch.hasError)
 		Error("Syntax error, missing ';'", lexer, context);
+}
+
+void ParseExpression(Lexer* lexer, Token* tok, Context* context){
+	cobra_next_token(lexer, tok);
+	if (tok->type == ID){
+		kObject obj;
+		cobra_set_object(&obj, tok->value, "var"); // Set the init token
+		cobra_next_token(lexer, tok); // Check what type of ID the token is
+		if (tok->type == LPAREN){ // Function
+			printf("%s\n", "function");
+			cobra_next_token(lexer, tok); // tmp eat both parens
+		}
+		else{
+			// Lookup variable
+		}
+	}
+	else if (tok->type == RETURN_NUM){
+
+	}
+	else if (tok->type == RETURN_STR){
+
+	}
+	else{
+
+	}
 }

@@ -19,11 +19,7 @@ int main(int argc, const char* argv[]){
 		Cobra_Compile(&context, str, "shell");
 	}
 	else{
-		const char* code = "var{\n"
-											 "	i = 0;\n"
-											 "  j = 10;\n"
-											 "  t = 'a';\n"
-											 "};";
+		const char* code = "var i = a();";
 		Cobra_Compile(&context, code, "inline");
 	}
   return 0;

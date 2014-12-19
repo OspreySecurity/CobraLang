@@ -15,6 +15,7 @@ void Error(const char* msg, Lexer *lexer, Context* context);
 void ParseInclude(Lexer* lexer, Token* tok);
 void ParseImport(Lexer* lexer, Token* tok);
 void ParseVariable(Lexer* lexer, Token* tok, Context* context);
+void ParseExpression(Lexer* lexer, Token* tok, Context* context);
 
 #ifdef __cplusplus
 }

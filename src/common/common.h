@@ -3,6 +3,8 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
+#include <stdlib.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
